@@ -14,9 +14,18 @@ export class UsersDal{
         this.mongoSetup();
         return UserModel.find({});
     }
-    public getUser(query:object):Promise<User> {
+    public getUser(id:string):Promise<User> {
+        if(!id){
+            var promise1 = new Promise<User>(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve(null);
+                }, 300);
+            });
+            return promise1;
+        }
+
         this.mongoSetup();
-        return UserModel.findOne(query);
+        return UserModel.findOne({id:id});
     }
     private mongoSetup(): void {
         return mongoose.connect(this.mongoUrl, {useNewUrlParser: true});
